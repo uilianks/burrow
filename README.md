@@ -13,6 +13,8 @@ npm test          # unit tests
 
 `npm run dist:installer` builds a Windows setup program instead of a zip; it needs Wine installed when run on Linux.
 
+`site/` is the download page: plain static files, separate from the app. Its buttons link to the files attached to the latest GitHub release (`Folio-linux.AppImage`, `Folio-windows.zip`), so publishing a release with those two files from `release/` is all it needs. `npm run demo` re-records the page's video (`site/demo.mp4`) by driving the editor with Playwright; it needs `ffmpeg`.
+
 ## Your notes folder
 
 The desktop app keeps everything in one folder, `Documents/Folio` unless you pick another from the `⋯` menu:

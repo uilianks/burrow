@@ -10,7 +10,8 @@
     "desktop": "npm run build && electron .",
     "dist": "npm run build && electron-builder --linux AppImage --win zip",
     "clean": "node -e \"for (const d of ['.next','out']) require('fs').rmSync(d,{recursive:true,force:true})\"",
-    "dist:installer": "npm run build && electron-builder --win nsis"
+    "dist:installer": "npm run build && electron-builder --win nsis",
+    "demo": "npm run build && node scripts/record-demo.mjs"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
@@ -25,6 +26,7 @@
     "katex": "^0.19.0",
     "mermaid": "^12.1.0",
     "next": "16.4.0",
+    "playwright": "^1.64.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwindcss": "^4",
@@ -50,7 +52,8 @@
         "AppImage"
       ],
       "category": "Office",
-      "icon": "desktop/icon.png"
+      "icon": "desktop/icon.png",
+      "artifactName": "Folio-linux.${ext}"
     },
     "win": {
       "target": [
@@ -62,7 +65,8 @@
         }
       ],
       "icon": "desktop/icon.png",
-      "signAndEditExecutable": false
+      "signAndEditExecutable": false,
+      "artifactName": "Folio-windows.${ext}"
     },
     "nsis": {
       "oneClick": false,

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Folio — notes that stay on your computer</title>
+  <meta name="description" content="A block-based notes app for Windows and Linux. Your notes live in a folder you can see, copy and back up yourself. No accounts, nothing sent anywhere.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Same palette as the app (src/app/globals.css). */
+    :root {
+      --background: #ffffff;
+      --foreground: #1d1d1f;
+      --muted: #f2f2f5;
+      --border: #e3e3e8;
+      --subtle: #6e6e73;
+      --accent: #0a84ff;
+      --purple: #af52de;
+      --orange: #ff9f0a;
+      --shadow: 0 10px 36px rgb(0 0 0 / 0.12);
+      --highlight: inset 0 1px 0 rgb(255 255 255 / 0.45);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --background: #191919;
+        --foreground: #f2f2f4;
+        --muted: #242426;
+        --border: #38383b;
+        --subtle: #98989f;
+        --shadow: 0 10px 36px rgb(0 0 0 / 0.5);
+        --highlight: inset 0 1px 0 rgb(255 255 255 / 0.08);
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --background: #191919;
+      --foreground: #f2f2f4;
+      --muted: #242426;
+      --border: #38383b;
+      --subtle: #98989f;
+      --shadow: 0 10px 36px rgb(0 0 0 / 0.5);
+      --highlight: inset 0 1px 0 rgb(255 255 255 / 0.08);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--foreground);
+      font-family: Geist, system-ui, sans-serif;
+      letter-spacing: -0.006em;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(70rem 45rem at 0% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 62%),
+        radial-gradient(55rem 40rem at 100% 100%, color-mix(in srgb, var(--purple) 18%, transparent), transparent 60%),
+        radial-gradient(40rem 30rem at 85% 5%, color-mix(in srgb, var(--orange) 11%, transparent), transparent 60%),
+        var(--muted);
+      background-attachment: fixed;
+    }
+    ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+    a { color: inherit; }
+    code { font-family: "Geist Mono", ui-monospace, monospace; font-size: 0.9em; }
+
+    .wrap { max-width: 64rem; margin: 0 auto; padding: 0 16px; }
+    .glass {
+      background: color-mix(in srgb, var(--background) 62%, transparent);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+      box-shadow: var(--shadow), var(--highlight);
+      border-radius: 18px;
+    }
+
+    header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; text-decoration: none; }
+    .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    header nav a { color: var(--subtle); text-decoration: none; font-size: 0.95rem; }
+    header nav a:hover { color: var(--foreground); }
+
+    .hero { text-align: center; padding: 72px 0 56px; }
+    .hero img { width: 88px; height: 88px; border-radius: 20px; box-shadow: var(--shadow); }
+    h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.08; letter-spacing: -0.03em; margin: 28px 0 16px; font-weight: 700; text-wrap: balance; }
+    .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); color: var(--subtle); max-width: 36rem; margin: 0 auto; text-wrap: pretty; }
+
+    .downloads { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+    .btn {
+      display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px;
+      padding: 12px 22px; border-radius: 14px; text-decoration: none; min-width: 13rem;
+      font-weight: 600; transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .btn small { font-weight: 400; font-size: 0.8rem; opacity: 0.75; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+    .btn.primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent); }
+    .btn.primary:hover { filter: brightness(1.08); }
+    .btn.secondary { color: var(--foreground); }
+    .fineprint { margin-top: 18px; font-size: 0.875rem; color: var(--subtle); }
+
+    .shot { margin: 0 auto 88px; padding: 10px; max-width: 56rem; }
+    .shot video { display: block; width: 100%; height: auto; border-radius: 12px; background: var(--muted); }
+
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.1rem); letter-spacing: -0.025em; margin: 0 0 8px; text-align: center; }
+    .section-lede { text-align: center; color: var(--subtle); margin: 0 auto 36px; max-width: 34rem; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 88px; }
+    .feature { padding: 22px; }
+    .feature h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .feature p { margin: 0; color: var(--subtle); font-size: 0.95rem; }
+
+    .folder { padding: 28px; margin-bottom: 88px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .folder h2 { text-align: left; }
+    .folder p { color: var(--subtle); margin: 0; }
+    .tree { font-family: "Geist Mono", ui-monospace, monospace; font-size: 0.875rem; background: var(--background); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; line-height: 1.8; overflow-x: auto; white-space: pre; }
+    .tree i { font-style: normal; color: var(--subtle); }
+
+    .install { margin-bottom: 88px; }
+    .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .install-grid .glass { padding: 22px; }
+    .install-grid h3 { margin: 0 0 8px; }
+    .install-grid ol { margin: 0; padding-left: 1.2rem; color: var(--subtle); }
+    .install-grid li { margin: 4px 0; }
+    .install-grid pre { margin: 6px 0 0; padding: 8px 10px; background: var(--background); border: 1px solid var(--border); border-radius: 8px; overflow-x: auto; color: var(--foreground); }
+
+    footer { padding: 28px 0 40px; text-align: center; color: var(--subtle); font-size: 0.875rem; }
+    footer a { color: var(--subtle); }
+
+    @media (max-width: 760px) {
+      .features, .install-grid, .folder { grid-template-columns: 1fr; }
+      .hero { padding: 40px 0 40px; }
+      .btn { min-width: 0; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#"><img src="icon.svg" alt="">Folio</a>
+      <nav><a href="https://github.com/uilianks/folio">GitHub</a></nav>
+    </header>
+
+    <section class="hero">
+      <img src="icon.svg" alt="Folio app icon">
+      <h1>Your notes, in a folder<br>on your own computer.</h1>
+      <p class="lede">Folio is a block-based notes app for Windows and Linux. No accounts, no cloud, nothing sent anywhere — just pages you can see, copy and back up yourself.</p>
+
+      <div class="downloads">
+        <a class="btn primary" id="dl-windows" href="https://github.com/uilianks/folio/releases/latest/download/Folio-windows.zip">
+          Download for Windows <small>64-bit · .zip</small>
+        </a>
+        <a class="btn secondary glass" id="dl-linux" href="https://github.com/uilianks/folio/releases/latest/download/Folio-linux.AppImage">
+          Download for Linux <small>64-bit · AppImage</small>
+        </a>
+      </div>
+      <p class="fineprint">Free and open source under the MIT licence · <a href="https://github.com/uilianks/folio/releases">All releases</a></p>
+    </section>
+
+    <figure class="shot glass">
+      <video src="demo.mp4" poster="demo-poster.jpg" width="1280" height="800" autoplay muted loop playsinline controls preload="metadata"
+        aria-label="Folio in use: writing a page with to-dos, a callout, page links and an equation, adding a database and showing it as a board, searching, the page graph and the dark theme"></video>
+    </figure>
+
+    <section>
+      <h2>Everything a page needs</h2>
+      <p class="section-lede">Write in blocks, link your thinking together and organise it however you like.</p>
+      <div class="features">
+        <div class="feature glass"><h3>Blocks</h3><p>Headings, to-dos, toggles, callouts, code with syntax colouring, tables, columns, images, video, math and Mermaid diagrams — one <code>/</code> away.</p></div>
+        <div class="feature glass"><h3>Databases</h3><p>Rows with typed properties shown as a table, board, calendar, gallery, timeline or chart, with formulas, relations and automations.</p></div>
+        <div class="feature glass"><h3>Linked pages</h3><p>Link pages with <code>[[</code>, see backlinks on every page and explore how it all connects in the graph view.</p></div>
+        <div class="feature glass"><h3>Fast to drive</h3><p>Markdown shortcuts as you type, and Ctrl+K to search every page or run any command.</p></div>
+        <div class="feature glass"><h3>Never lose a thing</h3><p>Page history keeps versions as you edit, deleted pages go to the Trash, and undo goes as far back as you need.</p></div>
+        <div class="feature glass"><h3>Make it yours</h3><p>Light and dark themes, accent colours, fonts and page widths — plus plugins that add commands and block types.</p></div>
+      </div>
+    </section>
+
+    <section class="folder glass">
+      <div>
+        <h2>Your files, not ours</h2>
+        <p>Everything lives in <code>Documents/Folio</code> (or any folder you choose). Copy it to a USB stick, put it in your own backup or sync tool, or open the Markdown copy in any editor. If you ever stop using Folio, your notes are still right there.</p>
+      </div>
+      <div class="tree">Folio/
+├─ folio.json      <i>every page and block</i>
+├─ folio.json.bak  <i>last known good copy</i>
+├─ attachments/    <i>your uploaded files</i>
+├─ plugins/
+└─ Markdown/       <i>a readable .md of each page</i></div>
+    </section>
+
+    <section class="install" id="install">
+      <h2>Getting started</h2>
+      <p class="section-lede">No installer wizard, no sign-up.</p>
+      <div class="install-grid">
+        <div class="glass">
+          <h3>Windows</h3>
+          <ol>
+            <li>Download <code>Folio-windows.zip</code> and extract it.</li>
+            <li>Open <code>Folio.exe</code>.</li>
+            <li>If SmartScreen warns about an unknown app, choose <em>More info → Run anyway</em>.</li>
+          </ol>
+        </div>
+        <div class="glass">
+          <h3>Linux</h3>
+          <ol>
+            <li>Download <code>Folio-linux.AppImage</code>.</li>
+            <li>Make it executable and run it:
+              <pre><code>chmod +x Folio-linux.AppImage
+./Folio-linux.AppImage</code></pre>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Folio · MIT licence · <a href="https://github.com/uilianks/folio">Source on GitHub</a>
+    </footer>
+  </div>
+
+  <script>
+    // Respect "reduce motion": leave the demo paused with its controls instead of autoplaying.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const video = document.querySelector(".shot video");
+      video.removeAttribute("autoplay");
+      video.pause();
+    }
+
+    // Put the visitor's own platform first and make it the primary button.
+    if (/Linux/.test(navigator.userAgent) && !/Android/.test(navigator.userAgent)) {
+      const win = document.getElementById("dl-windows");
+      const linux = document.getElementById("dl-linux");
+      win.className = "btn secondary glass";
+      linux.className = "btn primary";
+      linux.after(win);
+    }
+  </script>
+</body>
+</html>

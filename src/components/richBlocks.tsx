@@ -206,6 +206,8 @@ export function EquationBlock({ block }: { block: Block }) {
           className={`${field} w-full font-mono text-sm`}
           value={block.text}
           onChange={(event) => update(block.id, { text: event.target.value }, block.id)}
+          // a new, empty equation shows this box without editing set; keep it open once typing starts
+          onFocus={() => setEditing(true)}
           onBlur={() => setEditing(false)}
         />
       )}
