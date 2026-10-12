@@ -312,10 +312,10 @@ function PluginBlockView({ block }: { block: Block }) {
 }
 
 /** Pasting this text into a block adds another copy of the synced content. */
-export const SYNC_LINK = /^folio-sync:([0-9a-f-]{36})$/;
+export const SYNC_LINK = /^burrow-sync:([0-9a-f-]{36})$/;
 
 function copySyncLink(source: string) {
-  const link = `folio-sync:${source}`;
+  const link = `burrow-sync:${source}`;
   // the clipboard can be refused (no permission, insecure page); show the text to copy by hand instead
   navigator.clipboard.writeText(link).catch(() => window.prompt("Copy this, then paste it where the copy should go", link));
 }

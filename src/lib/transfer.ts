@@ -7,15 +7,15 @@ export const pageMarkdown = (records: Records, pageId: string) =>
   `# ${htmlToText(records[pageId].text) || "Untitled"}\n\n${toMarkdown(records, childrenOf(records, pageId)).trimEnd()}\n`;
 
 /** Everything in the workspace as one file. Uploaded files are not included, only the notes that refer to them. */
-export const backup = (records: Records) => JSON.stringify({ folio: 1, blocks: Object.values(records) });
+export const backup = (records: Records) => JSON.stringify({ burrow: 1, blocks: Object.values(records) });
 
 /**
  * The blocks of a backup, given fresh ids so they can be added next to what
  * is already here. Its top-level pages are returned separately, to be placed.
  */
 export function readBackup(json: string): { blocks: Block[]; top: string[] } {
-  const parsed = JSON.parse(json) as { folio?: number; blocks?: Block[] };
-  if (parsed.folio !== 1 || !Array.isArray(parsed.blocks)) throw new Error("This is not a Folio backup file.");
+  const parsed = JSON.parse(json) as { burrow?: number; blocks?: Block[] };
+  if (parsed.burrow !== 1 || !Array.isArray(parsed.blocks)) throw new Error("This is not a Burrow backup file.");
   const ids = new Map(parsed.blocks.map((block) => [block.id, block.id === ROOT ? ROOT : crypto.randomUUID()]));
   const fresh = (id: string) => ids.get(id) ?? id;
   const root = parsed.blocks.find((block) => block.id === ROOT);

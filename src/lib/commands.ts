@@ -489,7 +489,7 @@ function deleteOps(records: Records, id: string): Op[] {
 export function seed(): Block[] {
   const page = newId();
   const lines: [BlockType, string][] = [
-    ["text", "Folio is a block-based notes workspace. Everything is saved in this browser."],
+    ["text", "Burrow is a block-based notes workspace. Everything is saved in this browser."],
     ["h2", "Try it"],
     ["todo", "Type <code>/</code> to open the block menu"],
     ["todo", "Start a line with <code>#</code>, <code>-</code>, <code>1.</code>, <code>[]</code> or <code>&gt;</code> then space"],

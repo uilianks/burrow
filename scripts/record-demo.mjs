@@ -26,7 +26,7 @@ const server = createServer(async (request, response) => {
 }).listen(0);
 const url = `http://localhost:${server.address().port}/`;
 
-const videoDir = await mkdtemp(join(tmpdir(), "folio-demo-"));
+const videoDir = await mkdtemp(join(tmpdir(), "burrow-demo-"));
 const browser = await chromium.launch();
 const context = await browser.newContext({
   viewport: SIZE,

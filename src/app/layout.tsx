@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Folio",
+  title: "Burrow",
   description: "A block-based notes workspace that lives in your browser",
 };
 

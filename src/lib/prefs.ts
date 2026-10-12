@@ -20,7 +20,7 @@ export interface Prefs {
 export const ACCENTS = { blue: "#0a84ff", purple: "#af52de", pink: "#ff2d6f", red: "#ff453a", orange: "#ff9500", green: "#30b158", graphite: "#8e8e93" };
 export type Accent = keyof typeof ACCENTS;
 
-const KEY = "folio:prefs";
+const KEY = "burrow:prefs";
 const DEFAULTS: Prefs = { theme: "system", fullWidthDefault: false, focusMode: false, recents: [], accent: "blue", reduceTransparency: false, spellcheck: true, graph: GRAPH_DEFAULTS };
 const listeners = new Set<() => void>();
 let current: Prefs | undefined;

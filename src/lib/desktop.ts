@@ -2,7 +2,7 @@ import type { FileStore } from "./files";
 import type { FoundPlugin } from "./plugins";
 import type { Block, Persistence } from "./store";
 
-/** What desktop/preload.cjs exposes when Folio runs as the desktop app. */
+/** What desktop/preload.cjs exposes when Burrow runs as the desktop app. */
 export interface DesktopBridge {
   load(): Promise<Block[]>;
   save(changed: Record<string, Block | null>): Promise<void>;
@@ -18,7 +18,7 @@ export interface DesktopBridge {
   onSaveFailed(listener: (message: string) => void): void;
   /** The title, description and picture a web page declares for itself, or null if it can't be read. */
   preview(url: string): Promise<{ title: string; description: string; image: string } | null>;
-  /** Small named JSON files kept in the notes folder's .folio/ directory (settings, page history). */
+  /** Small named JSON files kept in the notes folder's .burrow/ directory (settings, page history). */
   readData(name: string): Promise<unknown>;
   writeData(name: string, value: unknown): Promise<void>;
   /** Plugins in the notes folder's plugins/ directory, with their scripts. */
@@ -29,12 +29,12 @@ export interface DesktopBridge {
 
 declare global {
   interface Window {
-    folioDesktop?: DesktopBridge;
+    burrowDesktop?: DesktopBridge;
   }
 }
 
 /** The desktop shell, or undefined when running in a plain browser (development, tests). */
-export const desktop = () => (typeof window === "undefined" ? undefined : window.folioDesktop);
+export const desktop = () => (typeof window === "undefined" ? undefined : window.burrowDesktop);
 
 export const desktopPersistence = (bridge: DesktopBridge): Persistence => ({
   load: async () => Object.fromEntries((await bridge.load()).map((block) => [block.id, block])),

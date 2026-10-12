@@ -387,9 +387,9 @@ function Rules<T extends Filter | Sort>({
   );
 }
 
-const ROW_DRAG = "application/x-folio-row";
+const ROW_DRAG = "application/x-burrow-row";
 /** Pasting this text into a block adds a linked view of the database. */
-export const DATABASE_LINK = /^folio-db:([0-9a-f-]{36})$/;
+export const DATABASE_LINK = /^burrow-db:([0-9a-f-]{36})$/;
 
 /** A view that is a blank row to fill in: submitting it adds the row. */
 function FormView({ database }: { database: Block }) {
@@ -976,7 +976,7 @@ export function DatabaseBlock({ block, full }: { block: Block; full?: boolean })
             className={quiet}
             title="Then paste on any page to show these rows there too, with separate views"
             onClick={() => {
-              const link = `folio-db:${source.id}`;
+              const link = `burrow-db:${source.id}`;
               navigator.clipboard.writeText(link).catch(() => window.prompt("Copy this, then paste it where the linked view should go", link));
             }}
           >

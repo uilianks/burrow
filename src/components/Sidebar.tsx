@@ -11,7 +11,7 @@ import { openPage, store, useRecords } from "@/lib/workspace";
 
 export const pageTitle = (records: Records, id: string) => htmlToText(records[id]?.text ?? "") || "Untitled";
 
-const DRAG_TYPE = "application/x-folio-page";
+const DRAG_TYPE = "application/x-burrow-page";
 type Zone = "before" | "inside" | "after";
 const ZONE_STYLE: Record<Zone, string> = {
   before: "shadow-[inset_0_2px_0_var(--accent)]",
@@ -134,7 +134,7 @@ export function Sidebar({
 
   return (
     <nav className="glass flex h-full w-64 shrink-0 flex-col gap-2 overflow-auto rounded-2xl p-2">
-      <div className="px-2 pt-1 text-sm font-semibold">Folio</div>
+      <div className="px-2 pt-1 text-sm font-semibold">Burrow</div>
       <div className="flex flex-col">
         <button type="button" className={entry} onClick={onSearch}>
           🔍 Search <span className="float-right text-xs">Ctrl K</span>

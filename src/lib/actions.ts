@@ -28,9 +28,9 @@ export function exportPageHtml(id: string) {
   download(`${fileName(htmlToText(records[id].text))}.html`, pageHtml(records, id), "text/html");
 }
 
-export const exportBackup = () => download(`folio-backup-${day()}.json`, backup(store.getSnapshot()), "application/json");
+export const exportBackup = () => download(`burrow-backup-${day()}.json`, backup(store.getSnapshot()), "application/json");
 
-/** Brings in a Folio backup (.json), a web page (.html) or a Markdown file as a new page, and opens it. */
+/** Brings in a Burrow backup (.json), a web page (.html) or a Markdown file as a new page, and opens it. */
 export async function importFile(file: File) {
   const text = await file.text();
   if (file.name.toLowerCase().endsWith(".json")) {

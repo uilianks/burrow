@@ -131,7 +131,7 @@ export function SettingsDialog({ tab, onTab, onImport, onClose }: { tab: Setting
   } else {
     body = (
       <div className="flex flex-col gap-2 py-3 text-sm">
-        <div className="text-lg font-semibold">Folio {VERSION}</div>
+        <div className="text-lg font-semibold">Burrow {VERSION}</div>
         <p>A notes app that keeps your notes in a folder on your own computer. No account, nothing sent anywhere.</p>
         <p className="text-subtle">Open source under the MIT licence. Shortcuts: Ctrl+K search and commands, Ctrl+, settings, Ctrl+Z undo.</p>
       </div>

@@ -1,10 +1,10 @@
 // The desktop shell. It shows the built app (out/) in a window and is the only
 // part that touches the disk: the notes folder holds
-//   folio.json        every page and block (same format as a backup file)
-//   folio.json.bak    the notes as they were when the app was last opened
+//   burrow.json        every page and block (same format as a backup file)
+//   burrow.json.bak    the notes as they were when the app was last opened
 //   attachments/      uploaded files, named <id>-<original name>
 //   Markdown/         a readable copy of every page, rewritten as you edit
-//   .folio/           settings and page history, as small JSON files
+//   .burrow/           settings and page history, as small JSON files
 //   plugins/          one folder per plugin (manifest.json + a script), and enabled.json
 const { app, BrowserWindow, dialog, ipcMain, net, protocol, shell } = require("electron");
 const crypto = require("node:crypto");
@@ -31,9 +31,9 @@ const readConfig = () => {
     return {};
   }
 };
-// FOLIO_VAULT lets tests use a throwaway folder instead of the person's own notes.
-const vault = () => process.env.FOLIO_VAULT || readConfig().vault || path.join(app.getPath("documents"), "Folio");
-const notesFile = () => path.join(vault(), "folio.json");
+// BURROW_VAULT lets tests use a throwaway folder instead of the person's own notes.
+const vault = () => process.env.BURROW_VAULT || readConfig().vault || path.join(app.getPath("documents"), "Burrow");
+const notesFile = () => path.join(vault(), "burrow.json");
 const attachments = () => path.join(vault(), "attachments");
 
 // ---- notes: kept in memory, written to disk shortly after each change ----
@@ -44,7 +44,7 @@ let backedUp = false;
 
 function readNotes(file) {
   const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
-  if (parsed.folio !== 1 || !Array.isArray(parsed.blocks)) throw new Error("not a Folio notes file");
+  if (parsed.burrow !== 1 || !Array.isArray(parsed.blocks)) throw new Error("not a Burrow notes file");
   return parsed.blocks;
 }
 
@@ -57,7 +57,7 @@ function loadNotes() {
       blocks = readNotes(notesFile());
     } catch {
       // Never write over a file that can't be read: set it aside and fall back to the last good copy.
-      fs.renameSync(notesFile(), path.join(vault(), `folio.unreadable-${Date.now()}.json`));
+      fs.renameSync(notesFile(), path.join(vault(), `burrow.unreadable-${Date.now()}.json`));
       try {
         blocks = readNotes(`${notesFile()}.bak`);
       } catch {}
@@ -77,7 +77,7 @@ function flush() {
     backedUp = true;
     // write beside the real file and swap it in, so a crash mid-write can't leave half a file
     const temporary = `${notesFile()}.tmp`;
-    fs.writeFileSync(temporary, JSON.stringify({ folio: 1, blocks: [...records.values()] }));
+    fs.writeFileSync(temporary, JSON.stringify({ burrow: 1, blocks: [...records.values()] }));
     fs.renameSync(temporary, notesFile());
   } catch (error) {
     dirty = true;
@@ -159,7 +159,7 @@ ipcMain.handle("vault:mirror", (_event, files) => {
 });
 
 // ---- settings and page history: small named JSON files ----
-const dataFile = (name) => (/^[a-z0-9-]{1,64}$/.test(name) ? path.join(vault(), ".folio", `${name}.json`) : null);
+const dataFile = (name) => (/^[a-z0-9-]{1,64}$/.test(name) ? path.join(vault(), ".burrow", `${name}.json`) : null);
 ipcMain.handle("data:read", (_event, name) => {
   try {
     return JSON.parse(fs.readFileSync(dataFile(name), "utf8"));
@@ -265,7 +265,7 @@ function createWindow() {
   window = new BrowserWindow({
     width: 1280,
     height: 860,
-    title: "Folio",
+    title: "Burrow",
     icon: path.join(__dirname, "icon.png"),
     autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, "preload.cjs"), contextIsolation: true, nodeIntegration: false, sandbox: true },
@@ -276,12 +276,12 @@ function createWindow() {
     return { action: "deny" };
   });
   window.webContents.on("will-navigate", (event, url) => {
-    if (url.startsWith("app://folio/")) return;
+    if (url.startsWith("app://burrow/")) return;
     event.preventDefault();
     external(url);
   });
   window.on("close", flush);
-  window.loadURL("app://folio/");
+  window.loadURL("app://burrow/");
 }
 
 app.whenReady().then(() => {

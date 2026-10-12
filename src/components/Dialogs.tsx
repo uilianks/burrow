@@ -122,7 +122,7 @@ export function HistoryDialog({ pageId, onClose }: { pageId: string; onClose: ()
         <p className="text-sm text-subtle">Loading…</p>
       ) : versions.length === 0 ? (
         <p className="text-sm text-subtle">
-          No earlier versions yet. Folio keeps one every couple of minutes while you edit a page, up to the last 30.
+          No earlier versions yet. Burrow keeps one every couple of minutes while you edit a page, up to the last 30.
         </p>
       ) : (
         <div className="flex gap-4">
@@ -245,7 +245,7 @@ export function PluginsPanel() {
       {!bridge ? (
         <p className="text-sm">Plugins are loaded from the notes folder, so they are available in the desktop app.</p>
       ) : plugins.length === 0 ? (
-        <p className="text-sm">No plugins yet. Put a plugin’s folder into the plugins folder, then reopen Folio.</p>
+        <p className="text-sm">No plugins yet. Put a plugin’s folder into the plugins folder, then reopen Burrow.</p>
       ) : (
         <ul className="flex flex-col gap-3">
           {plugins.map((plugin) => (

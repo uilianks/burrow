@@ -27,7 +27,7 @@ const verification = (choice: string) => {
   return { at, until: Number(choice) ? at + Number(choice) * 86400000 : undefined };
 };
 
-const IMPORT_INPUT = "folio-import-file";
+const IMPORT_INPUT = "burrow-import-file";
 const pickImportFile = () => document.getElementById(IMPORT_INPUT)?.click();
 
 export function Workspace() {
@@ -109,7 +109,7 @@ export function Workspace() {
       for (const block of dueReminders(store.getSnapshot(), Date.now())) {
         const text = block.text.replace(/<[^>]*>/g, "") || "A block you marked";
         notify(`Reminder: ${text}`);
-        if ("Notification" in window && Notification.permission === "granted") new Notification("Folio reminder", { body: text });
+        if ("Notification" in window && Notification.permission === "granted") new Notification("Burrow reminder", { body: text });
         store.commit([{ op: "update", id: block.id, patch: { reminded: true } }]);
       }
     }, 15000);
@@ -325,7 +325,7 @@ export function Workspace() {
         {saveFailed && (
           <p role="alert" className="bg-red-600 px-3 py-1 text-sm text-white">
             Changes can’t be saved right now{folder ? ` to ${folder}` : ""}. Check that the folder still exists and has free space; anything you
-            write may be lost when you close Folio.
+            write may be lost when you close Burrow.
           </p>
         )}
         {importFailed && (

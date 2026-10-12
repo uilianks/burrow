@@ -62,7 +62,7 @@ const SHORTCUTS: Record<string, string> = {
 const ICONS = "📄 📝 📚 📌 💡 ✅ ⭐ 🔥 🎯 🚀 🧠 💼 🏠 🎨 🎵 🍀 🌍 ❤️ 🛠️ 📅 💰 🧪 🎮 ✈️".split(" ");
 const FONT = { serif: "font-serif", mono: "font-mono" };
 const CONTINUES: BlockType[] = ["bullet", "numbered", "todo", "toggle"];
-const DRAG_TYPE = "application/x-folio-block";
+const DRAG_TYPE = "application/x-burrow-block";
 const kind = (key: string) => BLOCK_KINDS.find((candidate) => candidate.key === key)!;
 const matching = (kinds: BlockKind[], query: string) => kinds.filter((item) => item.label.toLowerCase().includes(query.toLowerCase()));
 

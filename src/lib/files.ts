@@ -11,7 +11,7 @@ export interface FileStore {
 
 const STORE = "files";
 
-export function idbFiles(name = "folio-files"): FileStore {
+export function idbFiles(name = "burrow-files"): FileStore {
   let db: Promise<IDBDatabase> | undefined;
   const open = () =>
     (db ??= new Promise((resolve, reject) => {

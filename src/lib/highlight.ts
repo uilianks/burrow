@@ -98,7 +98,7 @@ function ensureStyles() {
   if (styled) return;
   styled = true;
   const sheet = new CSSStyleSheet();
-  sheet.replaceSync(KINDS.map((kind) => `::highlight(folio-${kind}) { color: var(--tok-${kind}); }`).join("\n"));
+  sheet.replaceSync(KINDS.map((kind) => `::highlight(burrow-${kind}) { color: var(--tok-${kind}); }`).join("\n"));
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
 }
 
@@ -135,6 +135,6 @@ export function setHighlights(id: string, el: HTMLElement | null, language?: str
     byBlock.set(id, ranges);
   }
   for (const kind of KINDS) {
-    CSS.highlights.set(`folio-${kind}`, new Highlight(...[...byBlock.values()].flatMap((ranges) => ranges[kind])));
+    CSS.highlights.set(`burrow-${kind}`, new Highlight(...[...byBlock.values()].flatMap((ranges) => ranges[kind])));
   }
 }

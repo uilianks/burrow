@@ -1,4 +1,4 @@
-# Writing a Folio plugin
+# Writing a Burrow plugin
 
 A plugin is a folder inside your notes folder:
 
@@ -27,38 +27,38 @@ Plugins are off until you turn them on under **⋯ → Plugins**. Turning one on
 
 ## main.js
 
-The script runs once when Folio starts, with one variable, `folio`. It is a plain script, not a module: no `import`, no `require`.
+The script runs once when Burrow starts, with one variable, `burrow`. It is a plain script, not a module: no `import`, no `require`.
 
 | Call | What it does |
 | --- | --- |
-| `folio.addCommand({ name, run })` | Adds a command to Ctrl+K. |
-| `folio.addBlock({ id, label, hint, render })` | Adds a block kind to the slash menu. See below. |
-| `folio.addSetting({ key, label, secret, placeholder })` | Asks the person for a value on the Plugins screen. `secret: true` hides what is typed. |
-| `folio.settings.get(key)` / `folio.settings.set(key, value)` | Reads and stores the plugin's own values (text). They are kept in the notes folder, in `.folio/plugin-<id>.json`. |
-| `folio.addSidebarItem({ label, run })` | Adds an entry at the bottom of the sidebar. |
-| `folio.onChange(listener)` | Calls `listener()` after every change to the notes. |
-| `folio.pages()` | Every page not in the trash, as `{ id, title, parent }`. |
-| `folio.currentPage()` | The id of the open page, or `null`. |
-| `folio.markdown(pageId)` | A page as Markdown text. |
-| `folio.append(pageId, markdown)` | Adds blocks, written as Markdown, to the end of a page. |
-| `folio.blocks(pageId)` | The blocks shown on a page, in order, as `{ id, type, text, checked, depth }`. |
-| `folio.updateBlock(id, { text, checked })` | Changes a block's text (written as inline Markdown) and/or its checkbox. |
-| `folio.removeBlock(id)` | Deletes a block; a page goes to the trash instead. |
-| `folio.open(pageId)` | Opens a page. |
-| `folio.notify(message)` | Shows a short notice in the corner. |
-| `folio.apiVersion` | `1`. Check it if you rely on something added later. |
+| `burrow.addCommand({ name, run })` | Adds a command to Ctrl+K. |
+| `burrow.addBlock({ id, label, hint, render })` | Adds a block kind to the slash menu. See below. |
+| `burrow.addSetting({ key, label, secret, placeholder })` | Asks the person for a value on the Plugins screen. `secret: true` hides what is typed. |
+| `burrow.settings.get(key)` / `burrow.settings.set(key, value)` | Reads and stores the plugin's own values (text). They are kept in the notes folder, in `.burrow/plugin-<id>.json`. |
+| `burrow.addSidebarItem({ label, run })` | Adds an entry at the bottom of the sidebar. |
+| `burrow.onChange(listener)` | Calls `listener()` after every change to the notes. |
+| `burrow.pages()` | Every page not in the trash, as `{ id, title, parent }`. |
+| `burrow.currentPage()` | The id of the open page, or `null`. |
+| `burrow.markdown(pageId)` | A page as Markdown text. |
+| `burrow.append(pageId, markdown)` | Adds blocks, written as Markdown, to the end of a page. |
+| `burrow.blocks(pageId)` | The blocks shown on a page, in order, as `{ id, type, text, checked, depth }`. |
+| `burrow.updateBlock(id, { text, checked })` | Changes a block's text (written as inline Markdown) and/or its checkbox. |
+| `burrow.removeBlock(id)` | Deletes a block; a page goes to the trash instead. |
+| `burrow.open(pageId)` | Opens a page. |
+| `burrow.notify(message)` | Shows a short notice in the corner. |
+| `burrow.apiVersion` | `1`. Check it if you rely on something added later. |
 
 ### Blocks
 
 ```js
-folio.addBlock({
+burrow.addBlock({
   id: "tally",                    // unique within your plugin
   label: "Tally counter",         // what the slash menu shows
   hint: "Click to count things",  // optional second line
   render(el, { data, update }) {
     // `el` is an empty element to fill. `data` is what this block last
     // saved (undefined for a new block). `update(newData)` saves new data;
-    // Folio then calls render again with it.
+    // Burrow then calls render again with it.
     // Return a function if you need to clean up (timers, listeners).
   },
 });

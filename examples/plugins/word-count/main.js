@@ -1,19 +1,19 @@
-// A sample Folio plugin. Copy this folder into <your notes folder>/plugins/
-// and turn it on under ⋯ → Plugins. `folio` is the plugin API: docs/plugins.md
+// A sample Burrow plugin. Copy this folder into <your notes folder>/plugins/
+// and turn it on under ⋯ → Plugins. `burrow` is the plugin API: docs/plugins.md
 
 // A command for Ctrl+K.
-folio.addCommand({
+burrow.addCommand({
   name: "Count words on this page",
   run() {
-    const page = folio.currentPage();
-    if (!page) return folio.notify("Open a page first.");
-    const words = folio.markdown(page).split(/\s+/).filter((word) => /\w/.test(word)).length;
-    folio.notify(`${words} words`);
+    const page = burrow.currentPage();
+    if (!page) return burrow.notify("Open a page first.");
+    const words = burrow.markdown(page).split(/\s+/).filter((word) => /\w/.test(word)).length;
+    burrow.notify(`${words} words`);
   },
 });
 
 // A block kind for the slash menu. `data` is whatever this block last saved.
-folio.addBlock({
+burrow.addBlock({
   id: "tally",
   label: "Tally counter",
   hint: "Click to count things",

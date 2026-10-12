@@ -1,4 +1,4 @@
-// AI help for Folio, with your own provider. Copy this folder into
+// AI help for Burrow, with your own provider. Copy this folder into
 // <your notes folder>/plugins/, turn it on under ⋯ → Plugins, and fill in
 // the settings there.
 //
@@ -9,12 +9,12 @@
 // chat-completions format works, for example Ollama at
 // http://localhost:11434/v1/chat/completions.
 
-folio.addSetting({ key: "apiKey", label: "Claude API key", secret: true, placeholder: "sk-ant-…" });
-folio.addSetting({ key: "model", label: "Model", placeholder: "claude-opus-5-5" });
-folio.addSetting({ key: "endpoint", label: "Local model address", placeholder: "leave empty to use Claude" });
+burrow.addSetting({ key: "apiKey", label: "Claude API key", secret: true, placeholder: "sk-ant-…" });
+burrow.addSetting({ key: "model", label: "Model", placeholder: "claude-opus-5-5" });
+burrow.addSetting({ key: "endpoint", label: "Local model address", placeholder: "leave empty to use Claude" });
 
 async function askClaude(instruction, text) {
-  const apiKey = folio.settings.get("apiKey").trim();
+  const apiKey = burrow.settings.get("apiKey").trim();
   if (!apiKey) throw new Error("add your Claude API key under ⋯ → Plugins first");
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -28,7 +28,7 @@ async function askClaude(instruction, text) {
       "anthropic-dangerous-direct-browser-access": "true",
     },
     body: JSON.stringify({
-      model: folio.settings.get("model").trim() || "claude-opus-5-5",
+      model: burrow.settings.get("model").trim() || "claude-opus-5-5",
       max_tokens: 16000,
       fallbacks: "default",
       system: instruction,
@@ -49,7 +49,7 @@ async function askLocal(endpoint, instruction, text) {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
-      model: folio.settings.get("model").trim() || "llama3.2",
+      model: burrow.settings.get("model").trim() || "llama3.2",
       stream: false,
       messages: [
         { role: "system", content: instruction },
@@ -66,21 +66,21 @@ const STYLE = "Answer in the same language as the notes. Write plain Markdown: s
 
 /** Runs an instruction over the open page and adds the answer to the end of it. */
 async function run(title, instruction) {
-  const page = folio.currentPage();
-  if (!page) return folio.notify("Open a page first.");
-  const endpoint = folio.settings.get("endpoint").trim();
-  folio.notify(`${title}: working…`);
-  const text = folio.markdown(page);
+  const page = burrow.currentPage();
+  if (!page) return burrow.notify("Open a page first.");
+  const endpoint = burrow.settings.get("endpoint").trim();
+  burrow.notify(`${title}: working…`);
+  const text = burrow.markdown(page);
   const answer = endpoint ? await askLocal(endpoint, `${instruction} ${STYLE}`, text) : await askClaude(`${instruction} ${STYLE}`, text);
   if (!answer) throw new Error("the model sent back nothing");
-  folio.append(page, `## ${title}\n${answer}`);
-  folio.notify(`${title}: added to the end of the page.`);
+  burrow.append(page, `## ${title}\n${answer}`);
+  burrow.notify(`${title}: added to the end of the page.`);
 }
 
-folio.addCommand({ name: "AI: Summarise this page", run: () => run("Summary", "Summarise these notes in a few bullet points, keeping names, numbers and dates exact.") });
-folio.addCommand({
+burrow.addCommand({ name: "AI: Summarise this page", run: () => run("Summary", "Summarise these notes in a few bullet points, keeping names, numbers and dates exact.") });
+burrow.addCommand({
   name: "AI: Meeting notes from this page",
   run: () => run("Meeting notes", "These are rough notes or a transcript of a meeting. Write clean meeting notes: a two-sentence summary, the decisions made, then the action items as tasks with the owner's name when one is given. Do not invent anything that is not in the notes."),
 });
-folio.addCommand({ name: "AI: Continue writing", run: () => run("Continued", "Continue this text for one or two paragraphs in the same voice and style. Give only the continuation.") });
-folio.addSidebarItem({ label: "Summarise page", run: () => run("Summary", "Summarise these notes in a few bullet points, keeping names, numbers and dates exact.") });
+burrow.addCommand({ name: "AI: Continue writing", run: () => run("Continued", "Continue this text for one or two paragraphs in the same voice and style. Give only the continuation.") });
+burrow.addSidebarItem({ label: "Summarise page", run: () => run("Summary", "Summarise these notes in a few bullet points, keeping names, numbers and dates exact.") });

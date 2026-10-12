@@ -1,5 +1,5 @@
 {
-  "name": "folio",
+  "name": "burrow",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -34,12 +34,12 @@
     "vitest": "^5.0.4"
   },
   "main": "desktop/main.cjs",
-  "desktopName": "app.folio.notes.desktop",
+  "desktopName": "app.burrow.notes.desktop",
   "description": "A block-based notes app that keeps your notes in a folder on your own computer",
-  "author": "Folio",
+  "author": "Burrow",
   "build": {
-    "appId": "app.folio.notes",
-    "productName": "Folio",
+    "appId": "app.burrow.notes",
+    "productName": "Burrow",
     "files": [
       "out/**/*",
       "desktop/**/*",
@@ -60,7 +60,7 @@
       ],
       "category": "Office",
       "icon": "desktop/icon.png",
-      "artifactName": "Folio-linux.${ext}",
+      "artifactName": "Burrow-linux.${ext}",
       "syncDesktopName": true
     },
     "win": {
@@ -74,7 +74,7 @@
       ],
       "icon": "desktop/icon.png",
       "signAndEditExecutable": false,
-      "artifactName": "Folio-windows.${ext}"
+      "artifactName": "Burrow-windows.${ext}"
     },
     "nsis": {
       "oneClick": false,

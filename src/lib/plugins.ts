@@ -134,7 +134,7 @@ const callable = <T>(value: T, what: string) => {
   return value;
 };
 
-/** The object a plugin's script receives as `folio`. See docs/plugins.md. */
+/** The object a plugin's script receives as `burrow`. See docs/plugins.md. */
 interface Pending {
   commands: PluginCommand[];
   blocks: PluginBlock[];
@@ -245,7 +245,7 @@ export function loadPlugins(found: FoundPlugin[], saved: Record<string, Record<s
     }
     const pending: Pending = { commands: [], blocks: [], settings: [], sidebar: [], watchers: [] };
     try {
-      new Function("folio", `"use strict";\n${source}`)(createApi(plugin, pending));
+      new Function("burrow", `"use strict";\n${source}`)(createApi(plugin, pending));
       commands.push(...pending.commands);
       blocks.push(...pending.blocks);
       settings.push(...pending.settings);

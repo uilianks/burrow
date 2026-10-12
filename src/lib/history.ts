@@ -17,7 +17,7 @@ const GAP = 2 * 60 * 1000;
 let db: Promise<IDBDatabase> | undefined;
 const open = () =>
   (db ??= new Promise((resolve, reject) => {
-    const request = indexedDB.open("folio-history", 1);
+    const request = indexedDB.open("burrow-history", 1);
     request.onupgradeneeded = () => request.result.createObjectStore(STORE, { autoIncrement: true }).createIndex("page", "page");
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);

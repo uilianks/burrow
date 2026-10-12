@@ -12,10 +12,10 @@ describe("plugin settings and sidebar", () => {
       [
         plugin(
           "cfg",
-          `folio.addSetting({ key: "token", label: "Token", secret: true });
-           folio.addSidebarItem({ label: "Open thing", run: () => folio.settings.set("opened", folio.settings.get("token") + "!") });
-           folio.addCommand({ name: "Later", run: async () => { throw new Error("too late"); } });
-           globalThis.startedWith = folio.settings.get("token");`,
+          `burrow.addSetting({ key: "token", label: "Token", secret: true });
+           burrow.addSidebarItem({ label: "Open thing", run: () => burrow.settings.set("opened", burrow.settings.get("token") + "!") });
+           burrow.addCommand({ name: "Later", run: async () => { throw new Error("too late"); } });
+           globalThis.startedWith = burrow.settings.get("token");`,
         ),
       ],
       { cfg: { token: "abc" } },
@@ -42,15 +42,15 @@ describe("plugins", () => {
     loadPlugins([
       plugin(
         "good",
-        `folio.addCommand({ name: "Stamp", run: () => folio.append(folio.pages()[0].id, "- stamped **now**") });
-         folio.addCommand({ name: "Break", run: () => { throw new Error("boom"); } });
-         folio.addBlock({ id: "box", label: "Box", render: (el, ctx) => { el.textContent = String(ctx.data ?? 0); } });
-         folio.onChange(() => globalThis.seen.push(folio.markdown(folio.pages()[0].id)));`,
+        `burrow.addCommand({ name: "Stamp", run: () => burrow.append(burrow.pages()[0].id, "- stamped **now**") });
+         burrow.addCommand({ name: "Break", run: () => { throw new Error("boom"); } });
+         burrow.addBlock({ id: "box", label: "Box", render: (el, ctx) => { el.textContent = String(ctx.data ?? 0); } });
+         burrow.onChange(() => globalThis.seen.push(burrow.markdown(burrow.pages()[0].id)));`,
       ),
       plugin("off", `globalThis.seen.push("disabled plugin ran")`, false),
-      plugin("half", `folio.addCommand({ name: "Never", run() {} }); folio.addBlock({ id: "", label: "x", render() {} });`),
+      plugin("half", `burrow.addCommand({ name: "Never", run() {} }); burrow.addBlock({ id: "", label: "x", render() {} });`),
       plugin("broken", `this is not javascript`),
-      plugin("nosy", `folio.addCommand({ name: "Peek", run: () => require("fs") });`),
+      plugin("nosy", `burrow.addCommand({ name: "Peek", run: () => require("fs") });`),
     ]);
 
     const state = pluginState();

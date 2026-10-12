@@ -1,13 +1,13 @@
-# Contributing to Folio
+# Contributing to Burrow
 
-Thanks for wanting to help. Folio is MIT licensed; by contributing you agree your work is too.
+Thanks for wanting to help. Burrow is MIT licensed; by contributing you agree your work is too.
 
 ## Getting set up
 
 ```bash
 npm install
 npm run dev       # the editor in a browser at http://localhost:3000 (notes go to the browser's own storage)
-npm run desktop   # the real desktop app (notes go to Documents/Folio)
+npm run desktop   # the real desktop app (notes go to Documents/Burrow)
 npm test          # unit tests
 npm run lint
 ```
@@ -23,7 +23,7 @@ The README's "How it is put together" section maps the code. In short: `src/lib`
 - `npm test`, `npm run lint` and `npx tsc --noEmit` pass.
 - New logic in `src/lib` comes with a test beside it.
 - Every change to notes goes through `store.commit` (see `src/lib/commands.ts`), so it can be undone and is saved.
-- Nothing may send notes anywhere. Folio is local-only; network use is limited to things the person asks for (embeds, link previews).
+- Nothing may send notes anywhere. Burrow is local-only; network use is limited to things the person asks for (embeds, link previews).
 
 ## Plugins
 

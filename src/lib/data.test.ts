@@ -269,6 +269,6 @@ describe("templates, daily notes and backup", () => {
     const [text, importedSub] = imported.content.map((id) => records[id]);
     expect(importedSub.type).toBe("page");
     expect(text.text).toBe(`see <a href="#${importedSub.id}">sub</a>`);
-    expect(() => readBackup('{"blocks":[]}')).toThrow("not a Folio backup");
+    expect(() => readBackup('{"blocks":[]}')).toThrow("not a Burrow backup");
   });
 });

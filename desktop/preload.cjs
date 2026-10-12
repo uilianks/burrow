@@ -2,7 +2,7 @@
 // Node or Electron is reachable from the page.
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("folioDesktop", {
+contextBridge.exposeInMainWorld("burrowDesktop", {
   load: () => ipcRenderer.invoke("vault:load"),
   save: (changed) => ipcRenderer.invoke("vault:save", changed),
   folder: () => ipcRenderer.invoke("vault:folder"),

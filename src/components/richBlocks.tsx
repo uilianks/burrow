@@ -344,7 +344,7 @@ export function MermaidPreview({ source }: { source: string }) {
     let current = true;
     // wait for a pause in typing: every keystroke is a different (often invalid) diagram
     const timer = setTimeout(async () => {
-      const renderId = `folio-diagram-${++diagrams}`;
+      const renderId = `burrow-diagram-${++diagrams}`;
       try {
         const { default: mermaid } = await import("mermaid");
         const dark = getComputedStyle(document.documentElement).colorScheme.includes("dark");

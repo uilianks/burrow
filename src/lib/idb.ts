@@ -9,7 +9,7 @@ const STORE = "blocks";
  * and removed from it once the database confirms. Loading replays whatever
  * is still in the journal.
  */
-export function idbPersistence(name = "folio"): Persistence {
+export function idbPersistence(name = "burrow"): Persistence {
   const journalKey = `${name}:unsaved`;
   const unsaved = new Map<string, Block | null>();
   // Without localStorage (private windows, blocked site data) there is simply no journal.

@@ -56,6 +56,6 @@ const body = entries
 fs.mkdirSync("out", { recursive: true });
 fs.writeFileSync(
   "out/THIRD_PARTY_NOTICES.txt",
-  `Folio includes the following third-party software.\n\n${"-".repeat(72)}\n\n${body}\n`,
+  `Burrow includes the following third-party software.\n\n${"-".repeat(72)}\n\n${body}\n`,
 );
 console.log(`Wrote out/THIRD_PARTY_NOTICES.txt (${entries.length} entries)`);

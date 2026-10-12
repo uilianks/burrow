@@ -1,4 +1,4 @@
-# Folio
+# Burrow
 
 A block-based notes app for Windows and Linux. You download it, it runs on your own computer, and your notes live in a folder you can see, copy and back up yourself. There are no accounts and nothing is sent anywhere.
 
@@ -15,22 +15,22 @@ npm test          # unit tests
 
 `npm run build` also writes `out/THIRD_PARTY_NOTICES.txt`, the licenses of the bundled packages and fonts (bundling strips their headers); `npm run dist` puts it next to the app's executable.
 
-`site/` is the download page: plain static files, separate from the app. Its buttons link to the files attached to the latest GitHub release (`Folio-linux.AppImage`, `Folio-windows.zip`), so publishing a release with those two files from `release/` is all it needs. `npm run demo` re-records the page's video (`site/demo.mp4`) by driving the editor with Playwright; it needs `ffmpeg`.
+`site/` is the download page: plain static files, separate from the app. Its buttons link to the files attached to the latest GitHub release (`Burrow-linux.AppImage`, `Burrow-windows.zip`), so publishing a release with those two files from `release/` is all it needs. `npm run demo` re-records the page's video (`site/demo.mp4`) by driving the editor with Playwright; it needs `ffmpeg`.
 
 ## Your notes folder
 
-The desktop app keeps everything in one folder, `Documents/Folio` unless you pick another from the `⋯` menu:
+The desktop app keeps everything in one folder, `Documents/Burrow` unless you pick another from the `⋯` menu:
 
 | In the folder | What it is |
 | --- | --- |
-| `folio.json` | Every page and block. This is the file to back up; it is also a valid file for "Import a backup". |
-| `folio.json.bak` | The notes as they were when the app was last opened. |
+| `burrow.json` | Every page and block. This is the file to back up; it is also a valid file for "Import a backup". |
+| `burrow.json.bak` | The notes as they were when the app was last opened. |
 | `attachments/` | Uploaded files, each under its original name with an id in front. |
-| `.folio/` | Settings and page history. |
+| `.burrow/` | Settings and page history. |
 | `plugins/` | One folder per plugin, and the list of which are turned on. |
-| `Markdown/` | A readable copy of every page as a `.md` file, in folders that follow your page tree. Folio rewrites it as you edit, so changes made there by hand are not read back. |
+| `Markdown/` | A readable copy of every page as a `.md` file, in folders that follow your page tree. Burrow rewrites it as you edit, so changes made there by hand are not read back. |
 
-If `folio.json` can't be read, Folio sets it aside under another name and opens the backup copy rather than writing over it.
+If `burrow.json` can't be read, Burrow sets it aside under another name and opens the backup copy rather than writing over it.
 
 ## Using it
 
