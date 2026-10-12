@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+  --muted: #f2f2f5;
+  --border: #e3e3e8;
+  --subtle: #86868b;
+  /* set from the Accent colour setting; blue until it loads */
+  --accent: #0a84ff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark applies when chosen explicitly, or when the system asks for it and light was not chosen. */
+:root[data-theme="dark"] {
+  --background: #191919;
+  --foreground: #f2f2f4;
+  --muted: #242426;
+  --border: #38383b;
+  --subtle: #98989f;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #191919;
+    --foreground: #f2f2f4;
+    --muted: #242426;
+    --border: #38383b;
+    --subtle: #98989f;
+    color-scheme: dark;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * The look: floating translucent panels over a soft coloured backdrop.
+ * `.wallpaper` is the backdrop, `.glass` a see-through panel (sidebar, menus,
+ * windows), `.sheet` the nearly solid surface the page itself sits on.
+ * "Reduce transparency" sets data-solid on <html>, which makes all three plain.
+ */
+.wallpaper {
+  background:
+    radial-gradient(70rem 45rem at 0% 0%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 62%),
+    radial-gradient(55rem 40rem at 100% 100%, color-mix(in srgb, var(--c-purple) 20%, transparent), transparent 60%),
+    radial-gradient(40rem 30rem at 85% 5%, color-mix(in srgb, var(--c-orange) 12%, transparent), transparent 60%),
+    var(--muted);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--background) 62%, transparent);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+  box-shadow:
+    0 10px 36px rgb(0 0 0 / 0.14),
+    inset 0 1px 0 color-mix(in srgb, white 45%, transparent);
+}
+
+.sheet {
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent);
+  box-shadow: 0 2px 14px rgb(0 0 0 / 0.06);
+}
+
+:root[data-theme="dark"] .glass {
+  box-shadow:
+    0 10px 36px rgb(0 0 0 / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .glass {
+    box-shadow:
+      0 10px 36px rgb(0 0 0 / 0.5),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+}
+
+:root[data-solid] .wallpaper {
+  background: var(--muted);
+}
+
+:root[data-solid] :is(.glass, .sheet) {
+  background: var(--background);
+  backdrop-filter: none;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 1px;
+}
+
+.editable:focus-visible,
+[contenteditable]:focus-visible {
+  outline: none;
+}
+
+button,
+select,
+input {
+  transition:
+    background-color 120ms,
+    opacity 120ms;
+}
+
+input[type="checkbox"],
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+/* An on/off switch, drawn from a checkbox. */
+input.toggle {
+  appearance: none;
+  position: relative;
+  width: 2.4rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--foreground) 30%, transparent);
+  cursor: pointer;
+}
+
+input.toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.4rem - 4px);
+  height: calc(1.4rem - 4px);
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+  transition: transform 160ms;
+}
+
+input.toggle:checked {
+  background: var(--accent);
+}
+
+input.toggle:checked::after {
+  transform: translateX(1rem);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) transparent;
+}
+
+.editable {
+  line-height: 1.6;
+  /* keep spaces at block edges significant, so splitting mid-sentence loses nothing */
+  white-space: pre-wrap;
+}
+
+.editable:empty:focus::before,
+.editable[data-placeholder-always]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--subtle);
+  pointer-events: none;
+}
+
+.editable a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.editable code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.875em;
+  background: var(--muted);
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+}
+
+/* Inline colours. A span carries data-color (text) and/or data-bg (highlight). */
+:root {
+  --c-gray: #787774;
+  --c-red: #d44c47;
+  --c-orange: #d9730d;
+  --c-green: #448361;
+  --c-blue: #337ea9;
+  --c-purple: #9065b0;
+  --tok-keyword: #9065b0;
+  --tok-string: #448361;
+  --tok-comment: #8a8781;
+  --tok-number: #d9730d;
+}
+
+.editable [data-color="gray"] { color: var(--c-gray); }
+.editable [data-color="red"] { color: var(--c-red); }
+.editable [data-color="orange"] { color: var(--c-orange); }
+.editable [data-color="green"] { color: var(--c-green); }
+.editable [data-color="blue"] { color: var(--c-blue); }
+.editable [data-color="purple"] { color: var(--c-purple); }
+
+.editable [data-bg] { border-radius: 3px; padding: 0.1em 0; }
+.editable [data-bg="gray"] { background: color-mix(in srgb, var(--c-gray) 25%, transparent); }
+.editable [data-bg="red"] { background: color-mix(in srgb, var(--c-red) 25%, transparent); }
+.editable [data-bg="orange"] { background: color-mix(in srgb, var(--c-orange) 25%, transparent); }
+.editable [data-bg="green"] { background: color-mix(in srgb, var(--c-green) 25%, transparent); }
+.editable [data-bg="blue"] { background: color-mix(in srgb, var(--c-blue) 25%, transparent); }
+.editable [data-bg="purple"] { background: color-mix(in srgb, var(--c-purple) 25%, transparent); }
+
+/* Focus mode: only the block being edited is at full strength. */
+.focus-mode .group:not(:focus-within) .editable {
+  opacity: 0.35;
+  transition: opacity 150ms;
+}
+
+/* A locked page: nothing on it can be changed, but links, folds and navigation still work. */
+[data-locked] [data-row-controls] {
+  display: none;
+}
+
+[data-locked] :is(input, select, textarea, label, button, td[contenteditable]):not([data-nav], [data-nav] *) {
+  pointer-events: none;
+}
+
+.editable [data-math] {
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+
+.editable [data-math]:hover {
+  background: var(--muted);
+}

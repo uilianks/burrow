@@ -1,0 +1,6 @@
+{
+  "name": "Word count",
+  "version": "1.0.0",
+  "description": "Counts the words on the open page, and adds a tally counter block.",
+  "main": "main.js"
+}

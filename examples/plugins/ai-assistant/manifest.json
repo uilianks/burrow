@@ -1,0 +1,6 @@
+{
+  "name": "AI assistant",
+  "version": "1.0.0",
+  "description": "Summarises a page, turns rough notes into meeting notes, or continues your writing. Uses your own Claude API key, or a model running on your computer.",
+  "main": "main.js"
+}

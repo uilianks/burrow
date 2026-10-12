@@ -1,0 +1,73 @@
+{
+  "name": "folio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run clean && next build",
+    "lint": "eslint",
+    "test": "vitest run",
+    "desktop": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --linux AppImage --win zip",
+    "clean": "node -e \"for (const d of ['.next','out']) require('fs').rmSync(d,{recursive:true,force:true})\"",
+    "dist:installer": "npm run build && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/katex": "^0.16.8",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "katex": "^0.19.0",
+    "mermaid": "^12.1.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^5.0.4"
+  },
+  "main": "desktop/main.cjs",
+  "description": "A block-based notes app that keeps your notes in a folder on your own computer",
+  "author": "Folio",
+  "build": {
+    "appId": "app.folio.notes",
+    "productName": "Folio",
+    "files": [
+      "out/**/*",
+      "desktop/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office",
+      "icon": "desktop/icon.png"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "desktop/icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "license": "MIT"
+}
