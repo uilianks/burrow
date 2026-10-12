@@ -6,10 +6,21 @@
   <title>Folio — notes that stay on your computer</title>
   <meta name="description" content="A block-based notes app for Windows and Linux. Your notes live in a folder you can see, copy and back up yourself. No accounts, nothing sent anywhere.">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    /* Geist, served from here rather than Google Fonts so visitors' IPs go nowhere else. Latin subset; license in fonts/OFL.txt. */
+    @font-face {
+      font-family: Geist;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url(fonts/geist.woff2) format("woff2");
+    }
+    @font-face {
+      font-family: "Geist Mono";
+      font-weight: 400;
+      font-display: swap;
+      src: url(fonts/geist-mono.woff2) format("woff2");
+    }
     /* Same palette as the app (src/app/globals.css). */
     :root {
       --background: #ffffff;

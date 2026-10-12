@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run clean && next build",
+    "build": "npm run clean && next build && node scripts/notices.mjs",
     "lint": "eslint",
     "test": "vitest run",
     "desktop": "npm run build && electron .",
@@ -34,6 +34,7 @@
     "vitest": "^5.0.4"
   },
   "main": "desktop/main.cjs",
+  "desktopName": "app.folio.notes.desktop",
   "description": "A block-based notes app that keeps your notes in a folder on your own computer",
   "author": "Folio",
   "build": {
@@ -44,6 +45,12 @@
       "desktop/**/*",
       "package.json"
     ],
+    "extraFiles": [
+      {
+        "from": "out/THIRD_PARTY_NOTICES.txt",
+        "to": "THIRD_PARTY_NOTICES.txt"
+      }
+    ],
     "directories": {
       "output": "release"
     },
@@ -53,7 +60,8 @@
       ],
       "category": "Office",
       "icon": "desktop/icon.png",
-      "artifactName": "Folio-linux.${ext}"
+      "artifactName": "Folio-linux.${ext}",
+      "syncDesktopName": true
     },
     "win": {
       "target": [
