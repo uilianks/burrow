@@ -15,7 +15,7 @@ npm test          # unit tests
 
 `npm run build` also writes `out/THIRD_PARTY_NOTICES.txt`, the licenses of the bundled packages and fonts (bundling strips their headers); `npm run dist` puts it next to the app's executable.
 
-`site/` is the download page: plain static files, separate from the app. Its buttons link to the files attached to the latest GitHub release (`Burrow-linux.AppImage`, `Burrow-windows.zip`), so publishing a release with those two files from `release/` is all it needs. `npm run demo` re-records the page's video (`site/demo.mp4`) by driving the editor with Playwright; it needs `ffmpeg`.
+`site/` is the download page: plain static files, separate from the app. Its buttons link to the files attached to the latest GitHub release (`Burrow-linux.AppImage`, `Burrow-windows.zip`), so publishing a release with those two files from `release/` is all it needs. The Windows note links to the VirusTotal report for the zip by its SHA-256, so after a new release upload the new zip to VirusTotal and update that link. `npm run demo` re-records the page's video (`site/demo.mp4`) by driving the editor with Playwright; it needs `ffmpeg`.
 
 ## Your notes folder
 
