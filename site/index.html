@@ -111,6 +111,8 @@
     .btn.primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent); }
     .btn.primary:hover { filter: brightness(1.08); }
     .btn.secondary { color: var(--foreground); }
+    .win-note { margin: 18px auto 0; max-width: 34rem; padding: 12px 16px; font-size: 0.875rem; color: var(--subtle); border-left: 3px solid var(--accent); text-align: left; }
+    .win-note strong { color: var(--foreground); }
     .fineprint { margin-top: 18px; font-size: 0.875rem; color: var(--subtle); }
 
     .shot { margin: 0 auto 88px; padding: 10px; max-width: 56rem; }
@@ -168,6 +170,7 @@
           Download for Linux <small>64-bit · AppImage</small>
         </a>
       </div>
+      <p class="win-note glass" id="win-note"><strong>On Windows:</strong> Burrow isn't code-signed yet, so Windows may say it “protected your PC” when you open it. That's expected for a new app — click <em>More info → Run anyway</em>.</p>
       <p class="fineprint">Free and open source under the MIT licence · <a href="https://github.com/uilianks/burrow/releases">All releases</a></p>
     </section>
 
@@ -247,6 +250,7 @@
       win.className = "btn secondary glass";
       linux.className = "btn primary";
       linux.after(win);
+      document.getElementById("win-note").hidden = true;
     }
   </script>
 </body>
